@@ -1,10 +1,11 @@
 <?php
 /**#@+
- * This extension sends Webhook notifications to a hubot with the hubot-incoming plugin installed.
- * This file contains configuration options for the extension.
+ * This extension sends Webhook notifications to a hubot with the
+ * hubot-incoming-webhook plugin installed.  This file contains configuration
+ * options for the extension.
  *
  * @ingroup Extensions
- * @link https://github.com/67P/mediawiki-hubot-incoming
+ * @link https://github.com/67P/mediawiki-hubot
  * @author Sebastian Kippe <sebastian@kip.pe>
  * @copyright Copyright © Sebastian Kippe
  * @license http://en.wikipedia.org/wiki/MIT_License MIT
@@ -18,12 +19,12 @@ if (!isset($hpc_attached)) die();
 ###############################
 
   // Your Hubot incoming webhook URL. Learn more: https://github.com/67P/hubot-incoming-webhook
-  $wgHubotIncomingWebhookUrl = "";
+  $wgHubotWebhookUrl = "";
   // Room/channel to post notifications to
-  $wgHubotIncomingRoomName   = "";
+  $wgHubotRoomName   = "";
   // Method for sending hooks. Can be "curl" or "file_get_contents". Defaults to "curl"
   // Note: "curl" needs the curl extension to be enabled. "file_get_contents" needs "allow_url_fopen" to be enabled in php.ini
-  $wgHubotIncomingSendMethod = "curl";
+  $wgHubotSendMethod = "curl";
 
 ##################
 # MEDIAWIKI URLS #
@@ -55,14 +56,14 @@ if (!isset($hpc_attached)) die();
 // Set desired options to false to disable notifications of those actions.
 
   // New user added
-  $wgHubotIncomingNewUser = true;
+  $wgHubotNewUser = true;
   // Article added
-  $wgHubotIncomingAddedArticle = true;
+  $wgHubotAddedArticle = true;
   // Article removed
-  $wgHubotIncomingRemovedArticle = true;
+  $wgHubotRemovedArticle = true;
   // Article moved to another title
-  $wgHubotIncomingMovedArticle = true;
+  $wgHubotMovedArticle = true;
   // Article edited
-  $wgHubotIncomingEditedArticle = true;
+  $wgHubotEditedArticle = true;
 
 ?>

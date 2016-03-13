@@ -1,4 +1,4 @@
-# MediawikiHubotIncoming
+# MediaWiki Hubot
 
 This MediaWiki extension sends notifications for common actions to Hubot chat
 bots via the [hubot-incoming-webhook](https://github.com/67P/hubot-incoming-webhook)

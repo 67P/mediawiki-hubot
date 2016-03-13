@@ -1,10 +1,11 @@
 <?php
 /**#@+
- * This extension sends Webhook notifications to a hubot with the hubot-incoming plugin installed.
- * This file contains configuration options for the extension.
+ * This extension sends Webhook notifications to a hubot with the
+ * hubot-incoming-webhook plugin installed.  This file contains configuration
+ * options for the extension.
  *
  * @ingroup Extensions
- * @link https://github.com/67P/mediawiki-hubot-incoming
+ * @link https://github.com/67P/mediawiki-hubot
  * @author Sebastian Kippe <sebastian@kip.pe>
  * @copyright Copyright © Sebastian Kippe
  * @license http://en.wikipedia.org/wiki/MIT_License MIT
@@ -38,8 +39,8 @@ $wgExtensionCredits['other'][] = array(
  */
 function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $summary, $isMinor, $isWatch, $section, $flags, $revision, $status, $baseRevId)
 {
-  global $wgHubotIncomingEditedArticle, $wgWikiUrl, $wgWikiUrlEnding;
-  if (!$wgHubotIncomingEditedArticle) return;
+  global $wgHubotEditedArticle, $wgWikiUrl, $wgWikiUrlEnding;
+  if (!$wgHubotEditedArticle) return;
 
   // Skip for new articles
   $isNew = $status->value['new'];
@@ -66,8 +67,8 @@ function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $
  */
 function hubot_incoming_article_inserted(WikiPage $article, $user, $text, $summary, $isminor, $iswatch, $section, $flags, $revision)
 {
-  global $wgHubotIncomingAddedArticle;
-  if (!$wgHubotIncomingAddedArticle) return;
+  global $wgHubotAddedArticle;
+  if (!$wgHubotAddedArticle) return;
 
   // Do not announce newly added file uploads as articles...
   if ($article->getTitle()->getNsText() == "File") return true;
@@ -89,8 +90,8 @@ function hubot_incoming_article_inserted(WikiPage $article, $user, $text, $summa
  */
 function hubot_incoming_article_deleted(WikiPage $article, $user, $reason, $id)
 {
-  global $wgHubotIncomingRemovedArticle;
-  if (!$wgHubotIncomingRemovedArticle) return;
+  global $wgHubotRemovedArticle;
+  if (!$wgHubotRemovedArticle) return;
 
   $message = sprintf(
     "%s deleted %s. Reason: %s",
@@ -108,8 +109,8 @@ function hubot_incoming_article_deleted(WikiPage $article, $user, $reason, $id)
  */
 function hubot_incoming_article_moved($title, $newtitle, $user, $oldid, $newid, $reason = null)
 {
-  global $wgHubotIncomingMovedArticle;
-  if (!$wgHubotIncomingMovedArticle) return;
+  global $wgHubotMovedArticle;
+  if (!$wgHubotMovedArticle) return;
 
   $message = sprintf(
     "%s moved %s to %s. Reason: %s",
@@ -128,8 +129,8 @@ function hubot_incoming_article_moved($title, $newtitle, $user, $oldid, $newid, 
  */
 function hubot_incoming_new_user_account($user, $byEmail)
 {
-  global $wgHubotIncomingNewUser;
-  if (!$wgHubotIncomingNewUser) return;
+  global $wgHubotNewUser;
+  if (!$wgHubotNewUser) return;
 
   $message = sprintf(
     "New wiki user created: %s %s",
@@ -147,16 +148,16 @@ function hubot_incoming_new_user_account($user, $byEmail)
 */
 function push_hubot_incoming_notify($message)
 {
-  global $wgHubotIncomingWebhookUrl, $wgHubotIncomingRoomName, $wgHubotIncomingSendMethod;
+  global $wgHubotWebhookUrl, $wgHubotRoomName, $wgHubotSendMethod;
 
   // Don't break JSON with " in message
   $message = str_replace('"', "'", $message);
 
   $payload = sprintf('{"message": "%s", "room": "%s"}',
-                     $message, $wgHubotIncomingRoomName);
+                     $message, $wgHubotRoomName);
 
   // Send data via file_get_contents. Note that you will need to have allow_url_fopen enabled in php.ini for this to work.
-  if ($wgHubotIncomingSendMethod == "file_get_contents") {
+  if ($wgHubotSendMethod == "file_get_contents") {
     $extradata = array(
       'http' => array(
         'header'  => "Content-type: application/json\r\n",
@@ -165,12 +166,12 @@ function push_hubot_incoming_notify($message)
       ),
     );
     $context = stream_context_create($extradata);
-    $result = file_get_contents($wgHubotIncomingWebhookUrl, false, $context);
+    $result = file_get_contents($wgHubotWebhookUrl, false, $context);
   }
   // Send data via cURL (default). Note that you will need to have cURL enabled for this to work.
   else {
     $h = curl_init();
-    curl_setopt($h, CURLOPT_URL, $wgHubotIncomingWebhookUrl);
+    curl_setopt($h, CURLOPT_URL, $wgHubotWebhookUrl);
     curl_setopt($h, CURLOPT_POST, 1);
     curl_setopt($h, CURLOPT_POSTFIELDS, $post);
     curl_exec($h);
