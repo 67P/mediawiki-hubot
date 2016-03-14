@@ -53,7 +53,7 @@ function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $
     $user,
     $isMinor == true ? "made a minor edit to" : "edited",
     $article->getTitle()->getFullText(),
-    $summary == "" ? "" : "($summary)",
+    $summary == "" ? "" : "(".trim($summary).")",
     $wgWikiUrl.$wgWikiUrlEnding.$article->getTitle()->getFullText()."&diff=".$rev->getId()."&oldid=".$rev->getParentId()
   );
 
