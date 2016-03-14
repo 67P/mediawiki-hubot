@@ -54,7 +54,7 @@ function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $
     $isMinor == true ? "made a minor edit to" : "edited",
     $article->getTitle()->getFullText(),
     $summary == "" ? "" : "(".trim($summary).")",
-    $wgWikiUrl.$wgWikiUrlEnding.$article->getTitle()->getFullText()."&diff=".$rev->getId()."&oldid=".$rev->getParentId()
+    $wgWikiUrl.$wgWikiUrlEnding.urlencode($article->getTitle()->getFullText())."&diff=".$rev->getId()."&oldid=".$rev->getParentId()
   );
 
   push_hubot_incoming_notify($message);
@@ -77,7 +77,7 @@ function hubot_incoming_article_inserted(WikiPage $article, $user, $text, $summa
     "%s created %s %s",
     $user,
     $article->getTitle()->getFullText(),
-    $wgWikiUrl.$wgWikiUrlEnding.$article->getTitle()->getFullText()
+    $wgWikiUrl.$wgWikiUrlEnding.urlencode($article->getTitle()->getFullText())
   );
 
   push_hubot_incoming_notify($message);
