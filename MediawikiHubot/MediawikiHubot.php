@@ -67,7 +67,7 @@ function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $
  */
 function hubot_incoming_article_inserted(WikiPage $article, $user, $text, $summary, $isminor, $iswatch, $section, $flags, $revision)
 {
-  global $wgHubotAddedArticle;
+  global $wgHubotAddedArticle, $wgWikiUrl, $wgWikiUrlEnding;;
   if (!$wgHubotAddedArticle) return;
 
   // Do not announce newly added file uploads as articles...
