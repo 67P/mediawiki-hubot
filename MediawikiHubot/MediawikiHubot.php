@@ -133,9 +133,7 @@ function hubot_incoming_new_user_account($user, $byEmail)
   if (!$wgHubotNewUser) return;
 
   $message = sprintf(
-    "New wiki user created: %s %s",
-    $user,
-    $wgWikiUrl.$wgWikiUrlEnding.$wgWikiUrlEndingUserPage.$user
+    "New wiki user created: %s", $user
   );
 
   push_hubot_incoming_notify($message);
