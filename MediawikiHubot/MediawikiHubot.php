@@ -171,7 +171,8 @@ function push_hubot_incoming_notify($message)
     $h = curl_init();
     curl_setopt($h, CURLOPT_URL, $wgHubotWebhookUrl);
     curl_setopt($h, CURLOPT_POST, 1);
-    curl_setopt($h, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($h, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($h, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
     curl_exec($h);
     curl_close($h);
   }
