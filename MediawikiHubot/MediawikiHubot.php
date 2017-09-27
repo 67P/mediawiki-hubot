@@ -149,11 +149,10 @@ function hubot_incoming_user_blocked(Block $block, $user)
   global $wgWikiUrl, $wgWikiUrlEnding, $wgWikiUrlEndingBlockList;
 
   $message = sprintf(
-    "%s has blocked %s %s Block expiration: %s. %s",
+    "%s has blocked %s %s. %s",
     $user,
     $block->getTarget(),
-    $block->mReason == "" ? "" : "with reason '".$block->mReason."'.",
-    $block->mExpiry,
+    $block->mReason == "" ? "" : "with reason '".$block->mReason,
     "All blocks: ".$wgWikiUrl.$wgWikiUrlEnding.$wgWikiUrlEndingBlockList);
 
   push_hubot_incoming_notify($message);
