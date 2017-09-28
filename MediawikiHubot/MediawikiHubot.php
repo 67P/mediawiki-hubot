@@ -22,7 +22,7 @@ $wgHooks['ArticleDeleteComplete'][] = 'hubot_incoming_article_deleted';
 $wgHooks['TitleMoveComplete'][] = 'hubot_incoming_article_moved';
 $wgHooks['AddNewAccount'][] = 'hubot_incoming_new_user_account';
 $wgHooks['BlockIpComplete'][] = 'hubot_incoming_user_blocked';
-$wgHooks['UploadComplete'][] = 'hubot_incoming_file_uploaded';
+/* $wgHooks['UploadComplete'][] = 'hubot_incoming_file_uploaded'; */
 
 $wgExtensionCredits['other'][] = array(
   'path' => __FILE__,
@@ -135,6 +135,25 @@ function hubot_incoming_new_user_account($user, $byEmail)
   $message = sprintf(
     "New wiki user created: %s", $user
   );
+
+  push_hubot_incoming_notify($message);
+  return true;
+}
+
+/**
+ * Called after a user account or IP is blocked
+ * @see https://www.mediawiki.org/wiki/Manual:Hooks/BlockIpComplete
+ */
+function hubot_incoming_user_blocked(Block $block, $user)
+{
+  global $wgWikiUrl, $wgWikiUrlEnding, $wgWikiUrlEndingBlockList;
+
+  $message = sprintf(
+    "%s has blocked %s %s. %s",
+    $user,
+    $block->getTarget(),
+    $block->mReason == "" ? "" : "with reason '".$block->mReason,
+    "All blocks: ".$wgWikiUrl.$wgWikiUrlEnding.$wgWikiUrlEndingBlockList);
 
   push_hubot_incoming_notify($message);
   return true;
