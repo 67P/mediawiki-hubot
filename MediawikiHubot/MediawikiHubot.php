@@ -41,6 +41,7 @@ function hubot_incoming_page_content_saved(WikiPage $article, $user, $content, $
 {
   global $wgHubotEditedArticle, $wgWikiUrl, $wgWikiUrlEnding;
   if (!$wgHubotEditedArticle) return;
+  if (!$wgHubotEditedArticleMinorChange && $isMinor) return;
 
   // Skip for new articles
   $isNew = $status->value['new'];

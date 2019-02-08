@@ -65,5 +65,7 @@ if (!isset($hpc_attached)) die();
   $wgHubotMovedArticle = true;
   // Article edited
   $wgHubotEditedArticle = true;
+  // Article edited, minor change
+  $wgHubotEditedArticleMinorChange = false;
 
 ?>
